@@ -15,7 +15,6 @@ p :foo.object_id  # 上記と同じオブジェクトID
 p "foo".class #=> String
 p :foo.class  #=> Symbol
 
-
 # オブジェクトの比較 1
 a = "foo"
 p a.hash
@@ -23,7 +22,14 @@ p a.object_id
 b = "foo"
 p b.hash
 p b.object_id
-# eql?よりもequal?の方がより厳密な比較となる
+# eql?よりもequal?の方がオブジェクトのハッシュ値に加えてオブジェクトIDも比較するため、より厳密な比較となる
 p a.eql?(b) #=> true、同じ内容
 p a.equal?(b) #=> false、異なるオブジェクト
 
+# オブジェクトの比較 2
+# ==はオブジェクト内の内容が同じかどうかを比較(eql?と同じ結果を返す)
+# ===はcase式での比較に使われる
+a = "foo"
+b = "foo"
+p a.eql?(b) #=> true
+p a == b #=> true
