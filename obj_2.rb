@@ -30,8 +30,8 @@ p b.object_id # aとは異なるオブジェクトID
 # オブジェクトの凍結
 # オブジェクトの内容の変更を禁止するにはfreezeメソッドを使う
 # 凍結されたオブジェクトを変更しようとするとRuntimeErrorが発生する
-p a = "abc"
-p a.freeze
+# p a = "abc"
+# p a.freeze
 # p a[0] = 'z' #=> RuntimeError: can't modify frozen String: "abc"
 
 # オブジェクトの汚染
