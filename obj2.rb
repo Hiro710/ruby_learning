@@ -65,3 +65,33 @@ p f.instance_variables #=> [:@hoge]
 p f.instance_variable_get(:@hoge) #=> 1
 p f.instance_variable_set(:@hoge, 2) #=> 2
 p f.instance_variable_get(:@hoge) #=> 2
+
+# 未定義メソッドの呼び出し
+class Bar
+  def method_missing(name, *args)
+    puts name
+  end
+end #=> :method_missing
+p b = Bar.new
+p b.hoge        #=> hoge nil
+# p "string".hoge #=> NoMethodError
+
+# オブジェクトの文字列表現
+=begin
+  to_sメソッドはオブジェクトの内容や文字列表現を返すのに対し、
+  inspectメソッドはオブジェクトを人間が読める形式に変換する
+
+  例えばto_sメソッドはオブジェクトのクラス名を表示するのに対し、
+  inspectメソッドはインスタンス変数とその値まで表示する
+  inspectメソッドは主にデバッグ用途で使われる
+=end
+p a = 1.2
+p a.to_s
+p class Hoge
+  def initialize
+    @foo = "bar"
+  end
+end #=> :initialize
+p hoge = Hoge.new
+p hoge.to_s
+p hoge.inspect
