@@ -41,4 +41,16 @@ p 10 / 3.0  #=> 3.3333333333333335 どちらかが小数なら小数を返す
 # 整数に対応する文字を求める
 # アスキーコードに対応する文字を求めるにはchrメソッドを使う。ただし対応する文字が存在しない場合にはRangeErrorになる
 p 65.chr  #=> "A"
-p -1.chr  #=> -1 out of char range (RangeError)
+# p -1.chr  #=> -1 out of char range (RangeError)
+
+# 次の整数、前の整数を求める
+# nextメソッド(succメソッド)は次の整数を、predメソッドは自身の数から-1した整数を返す
+p 10.next #=> 11
+p 10.succ #=> 11
+p 10.pred #=> 9
+
+# 整数を使った繰り返し(times, upto, downto)
+# timesメソッドはその整数の数だけ、uptoメソッドとdowntoメソッドはある整数からある整数まで与えられたブロックを実行する
+p sum = 0 #=> 0
+p 10.times {|i| sum += i} #=> 10
+puts sum #=> 45
