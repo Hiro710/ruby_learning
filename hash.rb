@@ -28,4 +28,21 @@ p a["apple"]                                      #=> "NONE"
 p a.default = "Not exists"                        #=> "Not exists"
 p a["apple"]                                      #=> "Not exists"
 
+=begin
+  ハッシュのキーや値を取得する
+
+  []
+  keys
+  values
+  values_at
+  fetch
+  select
+  find_all
+=end
+
+p a = {"apple" => "fruit", "coffee" => "drink"}     #=> {"apple"=>"fruit", "coffee"=>"drink"}
+p a["apple"]                                        #=> "fruit"
+a = {"apple" => "fruit", "coffee" => "drink"}
+p a.keys                                            #=> ["apple", "coffee"]
+p a.values                                          #=> ["fruit", "drink"]
 
