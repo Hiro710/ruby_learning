@@ -71,3 +71,57 @@ p a = {1 => "a", 2 => "b", 3 => "c", 4 => "d"}      #=> {1=>"a", 2=>"b", 3=>"c",
 p a.select{|key, value| key % 2 == 0}               #=> {2=>"b", 4=>"d"}
 p a.find_all{|key, value| key % 2 == 0}             #=> [[2, "b"], [4, "d"]]
 
+=begin
+  ハッシュを変更する
+
+  []=
+  delete
+  reject
+  reject!
+  delete_if
+  replace
+  shift
+  merge
+  update
+  invert
+  clear
+=end
+
+# []=は指定されたキーに対応する値を変更する
+# キーが存在しない場合は、そのキーと値を登録する
+p a = {"apple" => "fruit", "coffee" => "drink"}
+p a["apple"] = "red"                                #=> "red"
+p a                                                 #=> {"apple"=>"red", "coffee"=>"drink"}
+p a["orange"] = "orange"                            #=> "orange"
+p a                                                 #=> {"apple"=>"red", "coffee"=>"drink", "orange"=>"orange"}
+
+# deleteは指定されたキーに対応する値を取り除く
+# キーが存在していれば対応する値を、そうでなければnilを返す
+# ブロックが与えられた場合には、キーが存在しない場合にブロックの評価結果を返す
+a = {"apple" => "fruit", "coffee" => "drink"}
+p a.delete("apple")                                 #=> "fruit"
+p a                                                 #=> {"coffee"=>"drink"}
+
+# rejectはブロックを評価した結果が真になる値を取り除いたハッシュを生成して返す
+# 元のオブジェクトは変更されない
+a = {"apple" => "fruit", "coffee" => "drink"}
+p a.reject {|key, value| value == "drink"}          #=> {"apple"=>"fruit"}
+p a                                                 #=> {"apple"=>"fruit", "coffee"=>"drink"}
+
+# delete_ifとreject!はブロックを評価した結果が真になる値を取り除く
+# 元のオブジェクトも変更される(破壊的メソッド)
+a = {"apple" => "fruit", "coffee" => "drink"}
+p a.reject! {|key, value| value == "drink"}         #=> {"apple"=>"fruit"}
+p a                                                 #=> {"apple"=>"fruit"}
+
+a = {"apple" => "fruit", "coffee" => "drink"}
+p a.delete_if {|key, value| value == "drink"}       #=> {"apple"=>"fruit"}
+p a                                                 #=> {"apple"=>"fruit"}
+
+# replaceは引数で与えられたハッシュで自身を置き換える(object_idが同じだということに注意)
+p a = {"apple" => "fruit", "coffee" => "drink"}
+p a.object_id                                       #=> 60
+p a.replace({"orange" => "fruit", "tea" => "drink"})    #=>{"orange"=>"fruit", "tea"=>"drink"}
+p a.object_id                                       #=> 60
+
+
