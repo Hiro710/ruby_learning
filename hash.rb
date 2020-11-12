@@ -161,3 +161,53 @@ p a = {"orange" => "fruit", "coffee" => "drink", "apple" => "fruit", "tea" => "d
 p a = {"apple" => "foods", "coffee" => "drink"}
 p a.clear     #=> {}
 
+=begin
+  ハッシュを調べる
+
+  length
+  size
+  empty?
+  has_key?
+  include?
+  key?
+  member?
+  has_value?
+  value?
+=end
+
+# lengthとsizeはハッシュの組み合わせの数を返す
+# ハッシュが空であるかどうかを調べるにはempty?を使う
+p a = {"apple" => "foods", "coffee" => "drink"}
+p a.size       #=> 2
+p a.empty?     #=> false
+
+# has_key?, include?, key?, member?はハッシュにキーが存在する場合に真を返す
+a = {"apple" => "fruit", "coffee" => "drink"}
+p a.key?("apple")       #=> true
+p a.key?("orange")      #=> false
+
+# has_value?, value?はハッシュに値が存在する場合に真を返す
+a = {"apple" => "fruit", "coffee" => "drink"}
+p a.value?("fruit")     #=> true
+p a.key?("foods")       #=> false
+
+=begin
+  ハッシュを使った繰り返し
+
+  each
+  each_pair
+  each_key
+  each_value
+=end
+
+# each, each_pairは与えられたブロックにキーと値を渡して評価する
+a = {"apple" => "fruit", "coffee" => "drink"}
+=begin
+  以下の出力
+
+  apple => fruit
+  coffee => drink
+  {"apple"=>"fruit", "coffee"=>"drink"}
+=end
+p a.each{|key, value| puts "#{key} => #{value}"}
+
