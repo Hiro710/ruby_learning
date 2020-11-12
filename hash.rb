@@ -124,4 +124,40 @@ p a.object_id                                       #=> 60
 p a.replace({"orange" => "fruit", "tea" => "drink"})    #=>{"orange"=>"fruit", "tea"=>"drink"}
 p a.object_id                                       #=> 60
 
+# shiftはハッシュから先頭のキーと値の組み合わせを1つ取り除き、その組み合わせを配列として返す
+p a = {"apple" => "fruit", "coffee" => "drink"}
+p a.shift                                           #=> ["apple", "fruit"]
+p a                                                 #=> {"coffee"=>"drink"}
+
+=begin
+  mergeは自身を引数で指定されたハッシュを統合した、新しいハッシュオブジェクトを返す
+  デフォルト値は自身の設定が引き継がれる
+  ブロックが与えられた場合には、キーと自身の値、指定されたハッシュの値が渡され、
+  ブロックの評価結果が新しいハッシュの値となる
+=end
+
+p a = {"apple" => "foods", "coffee" => "drink"}
+# 以下の出力：{"apple"=>"fruit", "coffee"=>"drink", "orange"=>"fruit", "tea"=>"drink"}
+p a.merge({"orange" => "fruit", "tea" => "drink", "apple" => "fruit"})
+p a       #=> {"apple"=>"foods", "coffee"=>"drink"}
+# 以下の出力：{"apple"=>"foods", "coffee"=>"drink", "orange"=>"fruit", "tea"=>"drink"}
+p a.merge({"orange" => "fruit", "tea" => "drink"}){|key, self_val, other_val| self_val}
+
+# merge!とupdateは自身と引数で指定されたハッシュを統合する
+# mergeとは異なり、元のオブジェクトが変更される(破壊的メソッド)
+p a = {"apple" => "foods", "coffee" => "drink"}
+# 以下の出力：{"apple"=>"fruit", "coffee"=>"drink", "orange"=>"fruit", "tea"=>"drink"}
+p a.merge!({"orange" => "fruit", "tea" => "drink", "apple" => "fruit"})
+p a       #=> {"apple"=>"fruit", "coffee"=>"drink", "orange"=>"fruit", "tea"=>"drink"}
+
+# invertはキーと値を逆にしたハッシュを返す
+# ただし、値が重複している場合は結果は不定となる
+p a = {"apple" => "foods", "coffee" => "drink"}
+p a.invert      #=> {"foods"=>"apple", "drink"=>"coffee"}
+# 以下の出力：{"fruit"=>"apple", "drink"=>"tea"}
+p a = {"orange" => "fruit", "coffee" => "drink", "apple" => "fruit", "tea" => "drink"}.invert
+
+# clearはハッシュを空にする(破壊的メソッド)
+p a = {"apple" => "foods", "coffee" => "drink"}
+p a.clear     #=> {}
 
