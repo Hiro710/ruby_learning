@@ -211,3 +211,39 @@ a = {"apple" => "fruit", "coffee" => "drink"}
 =end
 p a.each{|key, value| puts "#{key} => #{value}"}
 
+# each_key, each_valueはそれぞれ、キーと値を与えられたブロックに渡して評価する
+a = {"apple" => "fruit", "coffee" => "drink"}
+=begin
+  以下の出力
+
+  key: apple
+  key: coffee
+  {"apple"=>"fruit", "coffee"=>"drink"}
+=end
+p a.each_key{ |key| puts "key: #{key}"}
+=begin
+  以下の出力
+
+  value: fruit
+  value: drink
+  {"apple"=>"fruit", "coffee"=>"drink"}
+=end
+p a.each_value{ |value| puts "value: #{value}"}
+
+=begin
+  ハッシュをソートする
+
+  sortは、ハッシュをキーと値の組み合わせの配列に変換し、それをソートした結果を返す
+  ハッシュ自身をソートするのではないことに注意
+  ブロックが与えられた場合には、キーと値の組合せの配列が渡される
+=end
+
+a = {4 => "a", 3 => "b", 2 => "c", 1 => "d"}
+p a.sort                              #=> [[1, "d"], [2, "c"], [3, "b"], [4, "a"]]
+p a.sort{|a, b| a[1] <=> b[1]}        #=> [[4, "a"], [3, "b"], [2, "c"], [1, "d"]]
+
+# ハッシュを変換する
+# ハッシュを配列に変換するにはto_aを使う
+# キーと値の組み合わせを配列の配列を生成する
+a = {4 => "a", 3 => "b", 2 => "c", 1 => "d"}
+p a.to_a                              #=> [[4, "a"], [3, "b"], [2, "c"], [1, "d"]]
