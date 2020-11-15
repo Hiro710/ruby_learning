@@ -12,3 +12,4 @@ p Symbol.all_symbols        #=> [:freeze, :inspect, :intern,...(省略)]
 
 # symbolオブジェクトに対応する文字列を取得する(id2name, to_s)
 p :foo.to_s                 #=> "foo"
+p :foo.id2name              #=> "foo"
