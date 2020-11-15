@@ -6,4 +6,9 @@ p a.object_id               #=> 989468
 p b = :foo                  #=> :foo
 p b.object_id               #=> 989468
 
+# 定義済みのsymbolオブジェクトを取得する(Symbol.all_symbols)
+p :foo                      #=> :foo
+p Symbol.all_symbols        #=> [:freeze, :inspect, :intern,...(省略)]
 
+# symbolオブジェクトに対応する文字列を取得する(id2name, to_s)
+p :foo.to_s                 #=> "foo"
