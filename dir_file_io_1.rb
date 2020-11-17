@@ -40,5 +40,30 @@ p dir = Dir.open("/Users/user"){|dir| puts dir.path}    #=> /Users/user    nil
 p Dir.pwd           #=> "/Users/user/Desktop/ruby_learning"
 p Dir.getwd         #=> "/Users/user/Desktop/ruby_learning"
 
+=begin
+  Dir.chdirはカレントディレクトリを指定されたディレクトリに変更する
+  指定がない場合、環境変数HOMEやLOGDIRが設定されていれば、そのディレクトリに移動する
+  ブロックが与えられた場合には、そのブロック内でのみディレクトリを移動し、
+  ブロックを出るときに元に戻る
+  ディレクトリの移動に成功すれば0を返す
+=end
 
+p Dir.chdir("/Users/user")      #=> 0
+p Dir.pwd                       #=> "/Users/user"
+p Dir.chdir("/Users/user/node_modules"){|dir| puts Dir.pwd}   #=> /Users/user/node_modules
+p Dir.pwd                       #=> "/Users/user"
+
+=begin
+  Dir.mkdirは指定したパスのディレクトリを作成する
+  2つ目の引数にパーミッション(mode)を指定することもできる
+  通常、パーミッションは3桁の8進数で指す
+  実際のパーミッションは、指定された値とumaskをかけた値(mode & ~umask)となる
+=end
+
+# p Dir.mkdir("/Users/user/Desktop/foo")          #=> 0
+# p Dir.mkdir("/Users/user/Desktop/bar", 0755)    #=> 0
+
+# ディレクトリ削除には、Dir.rmdirを使う
+p Dir.mkdir("/Users/user/Desktop/foo")            #=> 0  ディレクトリ作成
+p Dir.rmdir("/Users/user/Desktop/foo")            #=> 0  ディレクトリ削除
 
