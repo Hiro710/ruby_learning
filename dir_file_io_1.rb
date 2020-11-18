@@ -91,3 +91,44 @@ p file.read.encoding      #=> #<Encoding:UTF-8>
 # ファイルの閉じ忘れを防ぐ為にも、通常はこちらを使用するよう推奨されている
 # 以下の出力："Hi, I am Ruby !!"
 p file = File.open('/Users/user/Desktop/ruby_learning/README.txt'){|file| file.read}
+
+# ファイルの内容を読み込むには、他にもgetsやreadlinesなどがある
+
+=begin
+  ファイルのモード
+
+  File.openの2番目の引数にファイルを開くモードを指定できる
+  ファイルに書き込む場合や追記する場合には、以下のモードを指定して開く
+
+  "r"    読み込みモード
+  "w"    書き込みモード。既存ファイルの場合はファイルの内容を空にする
+  "a"    追記モード。常にファイルの末尾に追加される
+  "r+"   読み書きモード。ファイルの読み書き位置が先頭になる
+  "w+"   読み書きモード。"r+"と同じだが、既存ファイルの場合はファイルの内容が空になる
+  "a+"   読み書きモード。ファイルの読み込み位置は先頭に、書き込み位置は常に末尾になる
+
+  また、モードの後ろにファイルのエンコーディング(外部エンコーディング)と
+  読み込んだ時のエンコーディング(内部エンコーディング)を指定できる
+  例えばShift_JISのファイルを読み込む時、以下のように指定すると内部エンコーディングをUTF-8に
+  することができる
+=end
+
+# p f = File.open('shift_jis.txt', 'r:shift_jis:utf-8')   #=> #<File:shift_jis.txt>
+# p f.read      #=> "ルビー"  UTF-8に変換されている
+
+=begin
+  書き込む時も同様に指定できる
+  例えばファイルのエンコーディングをShift_JISに、書き込む内容のエンコーディング(内部エンコーディング)を
+  EUC-JPにする場合は以下のようになる
+=end
+
+# f = File.open('shift_jis.txt', 'w+:shift_jis:euc-jp')   #=> #<File:shift_jis.txt>
+# p f.write 'ルビー'.encode('euc-jp')     #=> 6    EUC-JPにエンコーディング変換
+# p f.rewind                             #=> 0
+# p f.read(4)                            #=> "\x83\x8B\x83r"     Shift_JISに変換されている
+
+
+# ファイルに書き込む
+# ファイルに文字列を書き込むにはwriteを使う
+# p file.open('new-file', "w"){|file| file.write "This is new file."}   #=> 17
+
