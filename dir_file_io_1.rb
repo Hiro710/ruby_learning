@@ -67,3 +67,27 @@ p Dir.pwd                       #=> "/Users/user"
 p Dir.mkdir("/Users/user/Desktop/foo")            #=> 0  ディレクトリ作成
 p Dir.rmdir("/Users/user/Desktop/foo")            #=> 0  ディレクトリ削除
 
+# Fileクラス
+=begin
+  ファイルを開くには、File.openまたはFile.newを使う
+  引数としてファイル名だけを与えると、読み取りモードで開く
+  ファイルが存在しない場合はエラーが発生する
+  ファイルを開くとファイルオブジェクトが返る
+  このファイルオブジェクトのreadで、ファイルの内容を取得できる
+  closeを実行すると、ファイルを閉じることができる
+=end
+
+p file = File.open('/Users/user/Desktop/ruby_learning/README.txt')    #=> #<File:/Users/user/Desktop/ruby_learning/README.txt>
+p file.read               #=> "Hi, I am Ruby !!"
+p file.close              #=> nil
+
+# ファイルの入出力時にはエンコーディングが有効になる
+p Encoding.default_external = 'UTF-8'   #=> デフォルトエンコーディングをUTF-8に設定
+p file = File.open('/Users/user/Desktop/ruby_learning/README.txt')    #=> #<File:/Users/user/Desktop/ruby_learning/README.txt>
+p file.read               #=> "Hi, I am Ruby !!"
+p file.read.encoding      #=> #<Encoding:UTF-8>
+
+# File.openにブロックを与えると、ブロック終了時に自動的にファイルを閉じることができる
+# ファイルの閉じ忘れを防ぐ為にも、通常はこちらを使用するよう推奨されている
+# 以下の出力："Hi, I am Ruby !!"
+p file = File.open('/Users/user/Desktop/ruby_learning/README.txt'){|file| file.read}
