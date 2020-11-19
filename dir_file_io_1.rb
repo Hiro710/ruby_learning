@@ -132,3 +132,26 @@ p file = File.open('/Users/user/Desktop/ruby_learning/README.txt'){|file| file.r
 # ファイルに文字列を書き込むにはwriteを使う
 # p file.open('new-file', "w"){|file| file.write "This is new file."}   #=> 17
 
+=begin
+  ファイルの属性を取得する
+
+  File.basename 指定されたパスからファイル名を取得
+  File.dirname  指定されたパスからディレクトリ名を取得
+  File.extname  指定されたパスから拡張子を取得
+  File.split    指定されたパスからディレクトリ名とファイル名の配列を取得
+  File.stat / File.lstat  ファイルの属性を示すFile::Statクラスのオブジェクトを返す
+  File.atime / File.ctime / File.mtime  それぞれファイルの最終アクセス時刻、状態が変更された時刻、
+                                        最終更新時刻を取得する
+
+  ファイルの属性はファイルオブジェクトのメソッドでも取得できる
+
+  path                                  ファイルを開く時に使用したパスを返す
+  File.lstat                            ファイルの属性を示すFile::Statクラスのオブジェクトを返す
+  File.atime / File.ctime / File.mtime  それぞれファイルの最終アクセス時刻、状態が変更された時刻、
+                                        最終更新時刻を取得する
+=end
+
+# ファイルの最終更新時刻を取得する
+p File.mtime('/Users/user/Desktop/ruby_learning/README.txt')                    #=> 2020-11-18 09:20:18 +0900
+p File.open('/Users/user/Desktop/ruby_learning/README.txt'){|file| file.mtime}  #=> 2020-11-18 09:20:18 +0900
+
