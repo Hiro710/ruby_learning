@@ -155,3 +155,17 @@ p file = File.open('/Users/user/Desktop/ruby_learning/README.txt'){|file| file.r
 p File.mtime('/Users/user/Desktop/ruby_learning/README.txt')                    #=> 2020-11-18 09:20:18 +0900
 p File.open('/Users/user/Desktop/ruby_learning/README.txt'){|file| file.mtime}  #=> 2020-11-18 09:20:18 +0900
 
+=begin
+  ファイルをテストする(FileTestモジュール)
+
+  File.exist? 指定されたパスが存在しているか調べる
+  File.file? / File.directory? / File.symlink?  それぞれ指定されたパスがファイルか、ディレクトリか、
+                                                シンボリックリンクかを調べる
+  File.executable? / File.readable? / File.writable?  それぞれ指定されたファイルが実行可能か、
+                                                      読み取り可能か、書き込み可能かを調べる
+  File.size                                           指定されたファイルのサイズを調べる
+=end
+
+# パスがディレクトリか調べる
+p File.directory?('/Users/user/Desktop/ruby_learning')              #=> true
+p File.directory?('/Users/user/Desktop/ruby_learning/README.txt')   #=> false
