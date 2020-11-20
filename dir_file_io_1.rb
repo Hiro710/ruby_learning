@@ -158,9 +158,9 @@ p File.open('/Users/user/Desktop/ruby_learning/README.txt'){|file| file.mtime}  
 =begin
   ファイルをテストする(FileTestモジュール)
 
-  File.exist? 指定されたパスが存在しているか調べる
-  File.file? / File.directory? / File.symlink?  それぞれ指定されたパスがファイルか、ディレクトリか、
-                                                シンボリックリンクかを調べる
+  File.exist?                                         指定されたパスが存在しているか調べる
+  File.file? / File.directory? / File.symlink?        それぞれ指定されたパスがファイルか、ディレクトリか、
+                                                      シンボリックリンクかを調べる
   File.executable? / File.readable? / File.writable?  それぞれ指定されたファイルが実行可能か、
                                                       読み取り可能か、書き込み可能かを調べる
   File.size                                           指定されたファイルのサイズを調べる
@@ -169,3 +169,18 @@ p File.open('/Users/user/Desktop/ruby_learning/README.txt'){|file| file.mtime}  
 # パスがディレクトリか調べる
 p File.directory?('/Users/user/Desktop/ruby_learning')              #=> true
 p File.directory?('/Users/user/Desktop/ruby_learning/README.txt')   #=> false
+
+=begin
+  ファイルの属性を設定する
+
+  ファイルの属性を変更するにはFile.chmodを、ファイルの所有者を変更するにはFile.chownを使う
+  これらはUnixコマンドに対応している
+  また、ファイルオブジェクトのchmodやchownでも変更できる
+=end
+
+# p File.chmod(0644, '/Users/user/Desktop/ruby_learning/README.txt')        #=> 1
+# p File.chown(501, 20, '/Users/user/Desktop/ruby_learning/README.txt')     #=> 1
+
+# ファイルの最終アクセス時刻や更新時刻は、File.utimeで設定する
+# p File.utime(Time.now, Time.now, '/Users/user/Desktop/ruby_learning/README.txt')    #=> 1
+
