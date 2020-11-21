@@ -212,4 +212,6 @@ p File.directory?('/Users/user/Desktop/ruby_learning/README.txt')   #=> false
 # ファイルをロックする
 # ファイルをロックするにはflockを使う
 # 引数にはロック方法を指定。ただし、システムに依存するので場合によってはエラーが発生する
+
+# ファイルを排他ロックする
 # p File.open('/Users/user/Desktop/ruby_learning/README.txt', "w") {|file| file.flock(File::LOCK_EX)}   #=> 0
