@@ -184,3 +184,32 @@ p File.directory?('/Users/user/Desktop/ruby_learning/README.txt')   #=> false
 # ファイルの最終アクセス時刻や更新時刻は、File.utimeで設定する
 # p File.utime(Time.now, Time.now, '/Users/user/Desktop/ruby_learning/README.txt')    #=> 1
 
+# ファイルのパスを絶対パスに展開する
+# 指定されたパスを絶対パスに展開するにはFile.expand_pathを使う
+# p File.expand_path('/Users/user/Desktop/ruby_learning/README.txt')
+
+=begin
+  ファイルを削除、リネームする
+
+  delete / unlink
+  truncate
+  rename
+=end
+
+# deleteは指定したファイルを削除する
+# 削除に失敗するとエラーが発生する
+# p File.delete('/Users/user/Desktop/ruby_learning/README.txt')   #=> 1
+
+# truncateはファイルを指定したバイト数に切り詰める
+# ファイルオブジェクトにも同様のtruncateメソッドがある
+# p File.truncate('/Users/user/Desktop/ruby_learning/README.txt', 0)                          #=> 0
+# p File.open('/Users/user/Desktop/ruby_learning/README.txt', "w") {|file| file.truncate(0)}  #=> 0
+
+# renameは、1つ目の引数で指定したファイル名を、2つ目の引数で指定したファイル名に変更する
+# リネーム先のファイルが存在する場合はファイルを上書きする
+# p File.rename('/Users/user/Desktop/ruby_learning/README.txt', '/Users/user/Desktop/ruby_learning/README_1.txt')  #=> 0
+
+# ファイルをロックする
+# ファイルをロックするにはflockを使う
+# 引数にはロック方法を指定。ただし、システムに依存するので場合によってはエラーが発生する
+# p File.open('/Users/user/Desktop/ruby_learning/README.txt', "w") {|file| file.flock(File::LOCK_EX)}   #=> 0
