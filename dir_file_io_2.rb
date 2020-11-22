@@ -5,3 +5,57 @@
   多くのメソッドはFileクラスでも利用できる
   標準出力(STDOUT)や標準入力(STDIN)、標準エラー出力(STDERR)もこのIOクラスのオブジェクト
 =end
+
+=begin
+  IOを開く
+
+  ファイルを開くにはKernelモジュールのopenを使う
+  ファイル名とファイルを開く時のモードを指定してopenを実行するとFileオブジェクトが返る
+  IO.openでも同様にファイルを開くことができる
+=end
+
+# ファイルを開く
+p io = open('README.txt')                             #=> #<File:README.txt>
+
+# エンコーディングを指定してファイルを開く
+# 例として外部エンコーディングとしてShift_JISを内部エンコーディングとしてEUC-JPを指定した場合は以下になる
+p io = open('README.txt', 'w+:shift_jis:euc-jp')      #=> #<File:README.txt>
+
+# openでファイルの代わりに「|」に続いてコマンドを指定すると、コマンドの出力結果を得ることができる
+# この場合は先程とは異なり、IOオブジェクトが返る
+p io = open('| ls -la')                               #=> #<IO:fd 9>
+
+# 開いたファイルの内容を読み込むにはreadを使う
+# この時エンコーディングが指定されていないと、
+# 入力エンコーディングはEncoding.default_externalで指定されているものになる
+p io = open('| ls -la /Users/user/Desktop/ruby_learning')   #=> #<IO:fd 10>
+=begin
+  以下コードの出力
+
+  total 232
+  drwxr-xr-x  26 user  staff    832 Nov 21 10:26 .
+  drwx------+ 67 user  staff   2144 Nov 21 10:13 ..
+  --(省略)--
+  => nil
+=end
+puts io.read
+p io.read.encoding        #=> #<Encoding:US-ASCII>
+
+# 開いたファイルに書き込むには、writeを使う
+# 標準出力に書き込む
+p STDOUT.write('There is new technology.')    #=> There is new technology.24
+
+# ファイルを閉じるにはcloseを使う
+# ファイルを開くopenでブロックに渡している場合は、ブロック終了時に自動的にファイルが閉じられる
+p open('README.txt') {|io| puts io.read}      #=> nil
+
+# IO.popenを使うと、コマンドをサブプロセスとして実行し、そのプロセスと入出力のパイプを開くことができる
+# close_writeはIOオブジェクトの書き込み用のIOを閉じるメソッド
+# 読み込み用のIOを閉じるには、close_readを使う
+p IO.popen('grep -i ruby', 'r+') do |io|
+    io.write('This is Ruby program')
+    io.close_write
+    puts io.read
+  end                                       #=> This is Ruby program   => nil
+
+# IOからの入力
