@@ -15,11 +15,11 @@
 =end
 
 # ファイルを開く
-p io = open('README.txt')                             #=> #<File:README.txt>
+# p io = open('README.txt')                             #=> #<File:README.txt>
 
 # エンコーディングを指定してファイルを開く
 # 例として外部エンコーディングとしてShift_JISを内部エンコーディングとしてEUC-JPを指定した場合は以下になる
-p io = open('README.txt', 'w+:shift_jis:euc-jp')      #=> #<File:README.txt>
+# p io = open('README.txt', 'w+:shift_jis:euc-jp')      #=> #<File:README.txt>
 
 # openでファイルの代わりに「|」に続いてコマンドを指定すると、コマンドの出力結果を得ることができる
 # この場合は先程とは異なり、IOオブジェクトが返る
@@ -58,4 +58,27 @@ p IO.popen('grep -i ruby', 'r+') do |io|
     puts io.read
   end                                       #=> This is Ruby program   => nil
 
-# IOからの入力
+=begin
+  IOからの入力
+
+  以下のメソッドのうち、readで長さを指定した場合のみバイナリ読み込みとなるため、エンコーディングがASCII-8BITとなる
+  それ以外は原則として、IOオブジェクトに内部エンコーディングが指定されている場合は
+  外部エンコーディングから内部エンコーディングへ変換が行われ、
+  内部エンコーディングの指定がない場合は外部エンコーディングで指定されたエンコーディングとなる
+
+  IO.read / read
+  IO.foreach / each / each_lines
+  readlines
+  readline / gets
+  each_byte
+  getbyte / readbyte
+  each_char
+  getc / readchar
+=end
+
+# IO.readとIOオブジェクトのreadは、ともにIOから内容を読み込む
+# 長さが指定されていれば、その長さだけ読み込む
+p IO.read('README.txt')                   #=> "Hi, I am Ruby program.\nCould you friend me?"
+p IO.read('README.txt').encoding          #=> #<Encoding:US-ASCII>
+p IO.read('README.txt', 5)                #=> "Hi, I"
+p IO.read('README.txt', 5).encoding       #=> #<Encoding:ASCII-8BIT>
