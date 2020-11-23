@@ -82,3 +82,36 @@ p IO.read('README.txt')                   #=> "Hi, I am Ruby program.\nCould you
 p IO.read('README.txt').encoding          #=> #<Encoding:US-ASCII>
 p IO.read('README.txt', 5)                #=> "Hi, I"
 p IO.read('README.txt', 5).encoding       #=> #<Encoding:ASCII-8BIT>
+
+# IO.foreachは指定されたファイルを開き、各行をブロックに渡して実行していく
+# IOクラスのインスタンスであるIOオブジェクトでは、each, each_linesで同様に
+# 各行をブロックに渡して実行できる
+# IO.foreach("INSTALL") {|line| puts line}    #=> This is INSTALL file ...(省略)
+
+# readlinesはファイルを全て読み込んで、その各行の配列を返す
+# p open("INSTALL").readlines                 #=> ["This is INSTALL file\n", "INSTALLATION PROCESS:\n",...(省略)]
+
+# IOオブジェクトから1行読み込むには、getsやreadlineを使う
+# p io = open("INSTALL")          #=> #<File:INSTALL>
+# p io.gets                       #=> "This is INSTALL file\n"
+# p io.gets                       #=> "INSTALLATION PROCESS:\n"
+
+# each_byteは与えられたブロックにIOオブジェクトから1バイトずつ整数として読み込んで渡していく
+# p io = open("INSTALL")          #=> #<File:INSTALL>
+# p io.each_byte{|i| puts i}      #=> 84 104 105...(省略)
+
+# IOオブジェクトから1バイト読み込んで整数として返すには、getbyte, readbyteを使う
+# p io = open("INSTALL")          #=> #<File:README.txt>
+# p io.getbyte                    #=> 84  # "H"
+# p io.getbyte                    #=> 104  # "i"
+
+# each_charは与えられたブロックにIOオブジェクトから1文字ずつ読み込んで渡していく
+p io = open("README.txt")         #=> #<File:README.txt>
+p io.each_char{|c| puts c}        #=> H i ,...(省略)
+
+# IOオブジェクトから1文字読み込むには、getc, readcharを使う
+# これらはその文字に対応する文字列を返す
+p io = open("README.txt")         #=> #<File:README.txt>
+p io.getc                         #=> "H"
+p io.getc                         #=> "i"
+
