@@ -115,3 +115,48 @@ p io = open("README.txt")         #=> #<File:README.txt>
 p io.getc                         #=> "H"
 p io.getc                         #=> "i"
 
+=begin
+  IOへの出力
+
+  write
+  puts
+  print
+  printf
+  putc
+  <<
+  flush
+=end
+
+# writeはIOに対して引数の文字列を出力する
+# 引数が文字列以外の場合は、to_sで文字列化して出力する
+# 出力が成功すると、出力した文字列のバイト数を返す
+p STDOUT.write('There is new technology.')    #=> There is new technology.24
+
+# putsはIOに対して複数のオブジェクトを出力する
+# 引数が文字列や配列でない場合、to_aryにより配列化し、次に各要素をto_sで文字列化して出力する
+=begin
+  以下の出力：
+  Abcdefg
+  Hijklmn
+  nil
+=end
+p STDOUT.puts('Abcdefg', 'Hijklmn')
+
+=begin
+  printはputs同様IOに対して複数のオブジェクトを出力する
+  putsとは異なり、複数のオブジェクトが指定されると各オブジェクト間に「$,」の値を出力する
+  「$\」に値が設定されていれば最後に出力する
+  また引数が文字列でない場合、to_sで文字列化して出力する
+
+  printfはC言語のprintf同様に、指定されたフォーマットに従って引数の値を出力する
+=end
+
+=begin
+  以下の出力：
+  This is first line.
+  This is second line.  nil
+=end
+$, = "\n"
+p STDOUT.print('This is first line.', 'This is second line.')
+
+p STDOUT.printf('%010d', 123456)    #=> 0000123456 nil
