@@ -156,7 +156,72 @@ p STDOUT.puts('Abcdefg', 'Hijklmn')
   This is first line.
   This is second line.  nil
 =end
-$, = "\n"
-p STDOUT.print('This is first line.', 'This is second line.')
+# $, = "\n"
+# p STDOUT.print('This is first line.', 'This is second line.')
 
-p STDOUT.printf('%010d', 123456)    #=> 0000123456 nil
+# p STDOUT.printf('%010d', 123456)    #=> 0000123456 nil
+
+=begin
+  putcはIOに引数の文字を出力する
+  引数が整数の場合はその最下位バイトを文字コードとする文字を、
+  文字列の場合には先頭の1文字を出力する
+  どちらでもない場合はto_intで整数化して出力する
+=end
+
+p STDOUT.putc('a')          #=> a => "a"
+p STDOUT.putc(0x3042)       #=> B => 12354
+
+# <<はIOオブジェクトに指定されたオブジェクトを出力する
+# 返り値がIOオブジェクト自身となるため、メソッドチェーンが使える
+p STDOUT << "This" << " " << "is" << " " << "Ruby" << "."   #=> This is Ruby. #<IO:<STDOUT>>
+
+=begin
+  IOの内部バッファをフラッシュして出力するにはflushを使う
+  RubyではIOへの出力は一旦内部バッファに蓄積される為、writeやputsを実行しても
+  すぐにはファイルに書き込まれない
+=end
+
+# 内部バッファをフラッシュする
+# p io = open('README.txt', 'w+')         #=> #<File:README.txt>
+# p io.write('This is new README')        #=> 18
+# p 'cat README.txt'                      #=> ""
+# p io.flush                              #=> #<File:README.txt>
+# p 'cat README.txt'                      #=> "This is new README"
+
+=begin
+  IOオブジェクトの状態を調べる
+
+  stat
+  closed?
+  eof / eof?
+  lineno
+  sync
+
+  statはIOオブジェクトの状態を表すFile::Statオブジェクトを返す
+=end
+
+p io.stat   #=> #<File::Stat dev=0x1000004, ino=19447301, mode=0100644, nlink=1, uid=502, gid=20, rdev=0x0, size=18, blksize=4096, blocks=8, atime=2020-11-25 09:54:54.922511186 +0900, mtime=2020-11-25 09:48:04.907513985 +0900, ctime=2020-11-25 09:48:04.907513985 +0900, birthtime=2020-11-18 09:19:52.838492507 +0900>
+
+# IOオブジェクトが閉じられたかどうかを調べるには、closed?を使う
+# ファイルの終端に到達したかどうかを調べるにはeof?を使う
+p io = open('README.txt', 'r+')       #=> #<File:README.txt>
+p io.read                             #=> "This is new README"
+p io.eof?                             #=> true
+p io.close                            #=> nil
+p io.closed?                          #=> true
+
+# 現在の行番号(Rubyではgetsが呼び出された回数)を調べるには、linenoを使う
+# この行番号はlineno=で設定することもできる
+p io = open('README.txt')       #=> #<File:README.txt>
+p io.read                       #=> "Hi, I am Ruby.\nWhat's the question?"
+p io.rewind                     #=> 0
+p io.gets                       #=> "Hi, I am Ruby.\n"
+p io.lineno                     #=> 1
+p io.lineno = 10                #=> 10
+p io.gets                       #=> "What's the question?"
+p io.lineno                     #=> 11
+
+# 出力する際のバッファモードを調べるにはsyncを使う
+# 返り値がtrueの場合には、出力の実行毎にバッファがフラッシュされる
+p io = open('README.txt')       #=> #<File:README.txt>
+p io.sync                       #=> false

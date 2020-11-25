@@ -1,2 +1,2 @@
-Hi, I am Ruby program.
-Could you friend me?
+Hi, I am Ruby.
+What's the question?
