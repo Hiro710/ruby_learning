@@ -225,3 +225,38 @@ p io.lineno                     #=> 11
 # 返り値がtrueの場合には、出力の実行毎にバッファがフラッシュされる
 p io = open('README.txt')       #=> #<File:README.txt>
 p io.sync                       #=> false
+
+=begin
+  ファイルポインタの移動や設定
+  開いたファイルの読み込みや書き込みをする場所、ファイルポインタの移動や設定は以下を使う
+  
+  rewind
+  pos
+  seek
+=end
+
+# rewindはファイルポインタを先頭に移動し、linenoの値を0にする
+io = open('README.txt')
+p io.read           #=> "Hi, I am Ruby.\nWhat's the question?"
+p io.read           #=> ""
+p io.rewind         #=> 0
+p io.read           #=> "Hi, I am Ruby.\nWhat's the question?"
+
+# ファイルポインタの位置はposで取得や設定ができる
+io = open('README.txt')
+p io.pos            #=> 0
+p io.pos = 10       #=> 10
+p io.read           #=> "uby.\nWhat's the question?"
+
+=begin
+  seekは指定した数だけファイルポインタを、2番目の引数の位置から移動する
+  ファイルの先頭からの位置を表す定数IO::SEEKSET、現在のファイルのポインタの
+  位置からを表すIO::SEEK_CUR、ファイルの末尾からを表すIO::SEEK_ENDを指定できる
+  デフォルトはIO::SEEK_SETになる
+=end
+
+io = open('README.txt')
+p io.seek(10)                     #=> 0
+p io.read                         #=> "uby.\nWhat's the question?"
+p io.seek(-10, IO::SEEK_END)      #=> 0
+p io.read                         #=> " question?"
