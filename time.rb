@@ -90,3 +90,26 @@ p t.gmtoff / 3600                             #=> 9
 p t.gmt_offset                                #=> 32400
 p t.gmt_offset / 3600                         #=> 9
 
+=begin
+  タイムゾーンを変更する
+
+  localtime
+  gmtime / utc
+  getlocal
+  getgm / getutc
+=end
+
+# localtimeはタイムゾーンをローカルタイムに、gmtimeとutcはUTCに変更する
+p t = Time.mktime(2017, 1, 2, 3, 4, 5, 6)     #=> 2017-01-02 03:04:05.000006 +0900
+p t.localtime                                 #=> 2017-01-02 03:04:05.000006 +0900
+p t.gmtime                                    #=> 2017-01-01 18:04:05.000006 UTC
+
+# getlocalはタイムゾーンをローカルタイムに変更した新しいTimeオブジェクトを、getgmとgetutcはUTC
+# に変更した新しいTimeオブジェクトを返す
+p t = Time.mktime(2017, 1, 2, 3, 4, 5, 6)     #=> 2017-01-02 03:04:05.000006 +0900
+p t.object_id                                 #=> 60
+p t1 = t.getlocal                             #=> 2017-01-02 03:04:05.000006 +0900
+p t1.object_id                                #=> 80
+p t.eql?(t1)                                  #=> true  (内容が一致)
+p t.equal?(t1)                                #=> false (object_idが違う為)
+
