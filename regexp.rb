@@ -39,3 +39,19 @@ p $_ = "abcdefg"              #=> "abcdefg"
 p a = Regexp.new("abc")       #=> /abc/
 p ~a                          #=> 0
 
+# 正規表現では、「.」や[]などでマッチングする場合、これらをエスケープする必要がある
+# このエスケープを自動で行うのが、Regexp.escapeやRegexp.quote
+# 正規表現の特殊文字をエスケープする
+p Regexp.escape("array.push(hash[key])")      #=> "array\\.push\\(hash\\[key\\]\\)"
+
+=begin
+  マッチした結果は、Regexp.last_matchで取得できる
+  Regexp.last_matchは、現在のスコープ(トップレベルやクラス・モジュール・メソッド定義)の中で
+  最後に行ったマッチ結果である、MatchDataオブジェクトを返す
+  この結果は特殊変数「$~」でも取得できる
+=end
+
+p /abcdefg/ =~ "abcdefghijklmnopqrstuvwxyz"    #=> 0
+p Regexp.last_match                            #=> #<MatchData "abcdefg">
+p $~                                           #=> #<MatchData "abcdefg">
+
