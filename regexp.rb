@@ -55,3 +55,22 @@ p /abcdefg/ =~ "abcdefghijklmnopqrstuvwxyz"    #=> 0
 p Regexp.last_match                            #=> #<MatchData "abcdefg">
 p $~                                           #=> #<MatchData "abcdefg">
 
+# 0であれば正規表現にマッチした文字列が、それ以降の整数ではカッコにマッチした部分文字列を得られる
+# これらの文字列はそれぞれ特殊変数$&と$1、$2などでも取得できる
+p /(abc)d(efg)/ =~ "abcdefghijklmnopqrstuvwxyz"   #=> 0
+p Regexp.last_match(0)                            #=> "abcdefg"
+p $&                                              #=> "abcdefg"
+p Regexp.last_match(1)                            #=> "abc"
+p Regexp.last_match(2)                            #=> "efg"
+p $1                                              #=> "abc"
+p $2                                              #=> "efg"
+p $4                                              #=> nil
+
+# 正規表現の論理和を求める
+# 複数の正規表現を結合し、そのどれかにマッチするような新しい正規表現を求めるには、Regexp.unionを使う
+p a = Regexp.new("abc")                           #=> /abc/
+p b = Regexp.new("ABC")                           #=> /ABC/
+p c = Regexp.union(a, b)                          #=> /(?-mix:abc)|(?-mix:ABC)/
+p c =~ "abc"                                      #=> 0
+p Regexp.last_match                               #=> #<MatchData "abc">
+
