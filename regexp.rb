@@ -74,3 +74,42 @@ p c = Regexp.union(a, b)                          #=> /(?-mix:abc)|(?-mix:ABC)/
 p c =~ "abc"                                      #=> 0
 p Regexp.last_match                               #=> #<MatchData "abc">
 
+=begin
+  正規表現オブジェクトのオプションや属性を取得する
+
+  options
+  casefold?
+  encoding
+  source
+=end
+
+# optionsはRegexp::EXTENDED, Regexp::IGNORECASE, Regexp::MULTILINEの論理和を返す
+p a = Regexp.new("abcdefg", Regexp::MULTILINE | Regexp::IGNORECASE)   #=> /abcdefg/mi
+p a.options                                                           #=> 5
+p a.options & Regexp::IGNORECASE                                      #=> 1
+p a.options & Regexp::EXTENDED                                        #=> 0
+
+# casefold?はオプションRegexp::IGNORECASEが設定されているかどうかを返す
+# Regexpオブジェクトのエンコーディングはencodingで取得する
+p a = Regexp.new("abcdefg")                                           #=> /abcdefg/
+p a.casefold?                                                         #=> false
+p a = Regexp.new("abcdefg", Regexp::MULTILINE | Regexp::IGNORECASE)   #=> /abcdefg/mi
+p a.casefold?                                                         #=> true
+
+# 正規表現オブジェクトがコンパイルされている文字コードをEncodingオブジェクトとして返す
+p a = Regexp.new("ルビー")                                             #=> /ルビー/
+p a.encoding                                                          #=> #<Encoding:UTF-8>
+p a = Regexp.new("ルビー".encode("EUC-JP"))                            #=> /\x{A5EB}\x{A5D3}\x{A1BC}/
+p a.encoding                                                          #=> #<Encoding:EUC-JP>
+
+=begin
+  sourceは、正規表現の元となった文字列表現を返す
+  同様の文字列表現を返すメソッドに、to_s, inspectがある
+  to_sは他の正規表現に埋め込んでも元の意味が保たれるような形式
+  inspectはto_sよりも自然な形式の文字列になるが、元の意味は保たれない
+=end
+
+p a = Regexp.new("abcdefg", Regexp::MULTILINE | Regexp::IGNORECASE)   #=> /abcdefg/mi
+p a.source                                                            #=> "abcdefg"
+p a.to_s                                                              #=> "(?mi-x:abcdefg)"
+p a.inspect                                                           #=> "/abcdefg/mi"
