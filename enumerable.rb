@@ -65,3 +65,20 @@ p [1, 2, 3, 4, 5].reduce(0) {|result, v| result + v ** 2}     #=> 55
   1
 =end
 [1, 2, 3, 4, 5].reverse_each {|i| puts i}
+
+=begin
+  all?は全ての要素が真であればtrueを、any?は真である要素が1つでもあればtrueを、
+  none?は全ての要素が偽であればtrueを、one?は1つの要素だけが真であればtrueを返す
+  member?とinclude?は、指定された値と==がtrueとなる要素があるときにtrueを返す
+=end
+
+p [1, nil, 3].all?                          #=> false
+p [1, nil, 3].any?                          #=> true
+p [1, nil, 3].none?                         #=> false
+p [nil, nil, nil].none?                     #=> true
+p [1, nil, 3].one?                          #=> false
+p [1, nil, nil].one?                        #=> true
+p [].all?                                   #=> true
+p [].any?                                   #=> false
+p [1, 2, 3, 4, 5].include?(3)               #=> true
+p [1, 2, 3, 4, 5].member?(3)                #=> true
