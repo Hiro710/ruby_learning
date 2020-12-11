@@ -145,3 +145,33 @@ p (1..10).group_by {|v| v % 2}                      #=> {1=>[1, 3, 5, 7, 9], 0=>
 p [:a, :b, :c].zip([1, 2, 3], ["a", "b", "c"])      #=> [[:a, 1, "a"], [:b, 2, "b"], [:c, 3, "c"]]
 p [:a, :b, :c].zip([1, 2], ["a", "b"])              #=> [[:a, 1, "a"], [:b, 2, "b"], [:c, nil, nil]]
 
+# firstとtakeは先頭から指定した数の要素を配列として返す
+# firstのみ数を指定しない場合に先頭の要素のみを返す
+p [:a, :b, :c].take(2)                              #=> [:a, :b]
+p [:a, :b, :c].first(2)                             #=> [:a, :b]
+p [:a, :b, :c].first                                #=> :a
+
+# take_whileは先頭からブロックを評価し、最初に偽になった要素の直前までを返す
+p [:a, :b, :c, :d, :e].take_while {|e| e != :d}     #=> [:a, :b, :c]
+
+# dropはtakeとは逆に、先頭から指定した数の要素を取り除いた残りの要素を配列として返す
+p [:a, :b, :c, :d, :e].drop(3)                      #=> [:d, :e]
+p [:a, :b, :c, :d, :e].drop(2)                      #=> [:c, :d, :e]
+
+# drop_whileは先頭からブロックを評価し、最初に偽になった要素の手前までを切り捨て、残りの要素を配列として返す
+p [:a, :b, :c, :d, :e].drop_while {|e| e != :c}     #=> [:c, :d, :e]
+
+# selectは各要素に対し、ブロックの評価結果が真であった要素を含む配列を返す
+# 逆にrejectはブロックの評価結果が偽であった要素を含む配列を返す
+p [1, 2, 3, 4, 5].select {|e| e % 2 == 0}           #=> [2, 4]
+p [1, 2, 3, 4, 5].reject {|e| e % 2 == 0}           #=> [1, 3, 5]
+
+# lazyはmapやselectなどのメソッドが、遅延評価を行うように再定義される
+# 遅延評価になるとそれぞれのメソッドが配列ではなくEnumerator::Lazyを返すようになり、
+# メソッドを評価するタイミングを遅らせることができる
+
+p a = [1, 2, 3, 4, 5].lazy.select {|e| e % 2 == 0}  #=> #<Enumerator::Lazy: #<Enumerator::Lazy: [1, 2, 3, 4, 5]>:select>
+p b = a.map {|e| e * 2}                             #=> #<Enumerator::Lazy: #<Enumerator::Lazy: #<Enumerator::Lazy: [1, 2, 3, 4, 5]>:select>:map>
+p c = a.take(3)                                     #=> #<Enumerator::Lazy: #<Enumerator::Lazy: #<Enumerator::Lazy: [1, 2, 3, 4, 5]>:select>:take(3)>
+p c.to_a      # ここで評価される                       #=> [2, 4]
+
